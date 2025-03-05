@@ -1,8 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -11,75 +11,70 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+// import { AlertCircle, CheckCircle2 } from "lucide-react";
 
-export const ForgotPasswordForm = ({
-  className,
-  ...props
-}: {
-  className?: string;
-}) => {
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [step, setStep] = useState(1); // 1: Email, 2: OTP + Password, 3: Success
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const handleRequestOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
+export const ForgotPasswordForm = ({ className }: { className?: string }) => {
+  // const [email, setEmail] = useState("");
+  // const [otp, setOtp] = useState("");
+  // const [newPassword, setNewPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // const [step, setStep] = useState(1); // 1: Email, 2: OTP + Password, 3: Success
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
+  // const handleRequestOTP = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setIsLoading(true);
 
-    try {
-      // Mock API call to request OTP
-      // In a real application, replace with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   try {
+  //     // Mock API call to request OTP
+  //     // In a real application, replace with actual API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Simulate successful OTP generation
-      setSuccess("OTP has been sent to your email address");
-      setStep(2);
-    } catch (err) {
-      setError("Failed to send OTP. Please try again." + String(err));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     // Simulate successful OTP generation
+  //     setSuccess("OTP has been sent to your email address");
+  //     setStep(2);
+  //   } catch (err) {
+  //     setError("Failed to send OTP. Please try again." + String(err));
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
+  // const handleResetPassword = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setIsLoading(true);
 
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      setIsLoading(false);
-      return;
-    }
+  //   if (newPassword !== confirmPassword) {
+  //     setError("Passwords do not match");
+  //     setIsLoading(false);
+  //     return;
+  //   }
 
-    if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters long");
-      setIsLoading(false);
-      return;
-    }
+  //   if (newPassword.length < 8) {
+  //     setError("Password must be at least 8 characters long");
+  //     setIsLoading(false);
+  //     return;
+  //   }
 
-    try {
-      // Mock API call to verify OTP and reset password
-      // In a real application, replace with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   try {
+  //     // Mock API call to verify OTP and reset password
+  //     // In a real application, replace with actual API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Simulate successful password reset
-      setSuccess("Password has been reset successfully");
-      setStep(3);
-    } catch (err) {
-      setError(
-        "Invalid OTP or password reset failed. Please try again." + String(err),
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     // Simulate successful password reset
+  //     setSuccess("Password has been reset successfully");
+  //     setStep(3);
+  //   } catch (err) {
+  //     setError(
+  //       "Invalid OTP or password reset failed. Please try again." + String(err),
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       <Card>
@@ -93,7 +88,7 @@ export const ForgotPasswordForm = ({
             className={cn("flex flex-col gap-6", className)}
             {...props}
           > */}
-          {step === 1 && (
+          {/* {step === 1 && (
             <>
               {error && (
                 <div className="mb-4 flex items-center rounded-md border border-red-200 bg-red-50 p-3 text-red-700">
@@ -212,7 +207,7 @@ export const ForgotPasswordForm = ({
                 </button>
               </form>
             </>
-          )}
+          )} */}
           {/* </form> */}
         </CardContent>
       </Card>
