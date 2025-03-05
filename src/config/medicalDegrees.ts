@@ -1,0 +1,15 @@
+export const medicalDegrees = [
+  "MBBS",
+  "MD",
+  "DO",
+  "DM",
+  "DNB",
+  "MS",
+  "MCh",
+  "BDS",
+  "MDS",
+  "BAMS",
+  "BHMS",
+  "BUMS",
+  "PhD",
+];
