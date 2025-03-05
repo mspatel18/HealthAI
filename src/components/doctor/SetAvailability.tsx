@@ -25,36 +25,7 @@ type WeeklySchedule = {
 
 export default function SetAvailability() {
   const token = useSelector((state: RootState) => state.auth.token);
-  const [schedule, setSchedule] = useState<WeeklySchedule>({
-    Monday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Tuesday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Wednesday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Thursday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Friday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Saturday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-    Sunday: {
-      enabled: false,
-      slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
-    },
-  });
+  const [schedule, setSchedule] = useState<WeeklySchedule>({});
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
@@ -113,7 +84,11 @@ export default function SetAvailability() {
   const toggleDay = (day: string) => {
     setSchedule((prev) => ({
       ...prev,
-      [day]: { ...prev[day], enabled: !prev[day].enabled },
+      [day]: {
+        ...prev[day],
+        enabled: !prev[day].enabled,
+        slots: [{ start: "09:00", end: "12:00", location: "Clinic A" }],
+      },
     }));
   };
 

@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Separator } from "../ui/separator";
+import { NavLink } from "react-router";
 interface HealthIssueInterface {
   id: number;
   patient_id: number;
@@ -336,7 +337,13 @@ export const Diagnose = () => {
                 </p>
               </div>
             )}
-
+            <div className="border-b border-b-gray-200 p-3">
+              <NavLink to="/patient/specialist">
+                <Button className="flex items-center justify-center gap-2">
+                  Consult doctor <ExternalLink size={20} />
+                </Button>
+              </NavLink>
+            </div>
             <div className="mt-4 flex flex-col items-stretch bg-gradient-to-r from-blue-50/50 to-indigo-50/50 p-3">
               <div className="flex justify-between">
                 <div className="text-left">

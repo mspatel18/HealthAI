@@ -164,7 +164,9 @@ export function RegisterForm({ className, ...props }: { className?: string }) {
                   <Label htmlFor="phone_number">Contact Number</Label>
                   <Input
                     id="phone_number"
-                    type="text"
+                    className=""
+                    type="tel"
+                    maxLength={10}
                     placeholder="987453210"
                     required
                     value={formData.phone_number}

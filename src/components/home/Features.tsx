@@ -7,7 +7,7 @@ export const Features = () => {
   return (
     <AnimatedSection
       id="features"
-      className="container mx-auto rounded-3xl bg-white px-4 py-20"
+      className="container mx-auto rounded-3xl bg-white px-6 py-20"
     >
       <div className="mb-16 text-center">
         <motion.h2

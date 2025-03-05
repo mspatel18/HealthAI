@@ -45,8 +45,8 @@ export const HowItWorks = () => {
 
         <StepCard
           number="3"
-          title="Get Recommendations"
-          description="Receive preliminary diagnoses and recommendations for next steps, including specialist referrals."
+          title="Consult Best Doctors"
+          description="Consult the best doctors according to your disease by booking appointment"
           delay={0.5}
         />
       </div>

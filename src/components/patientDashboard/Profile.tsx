@@ -162,9 +162,9 @@ export const Profile = () => {
                 ? personalInfo.profile_photo
                 : undefined
             }
-            alt="Jerome"
+            alt={personalInfo.name}
           />
-          <AvatarFallback>JB</AvatarFallback>
+          <AvatarFallback>{personalInfo?.name?.[0] || "N/A"}</AvatarFallback>
         </Avatar>
         <div>
           <div className="flex items-center gap-2">

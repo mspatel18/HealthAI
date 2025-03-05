@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router";
-import { Calendar, Clock } from "lucide-react";
+import { AlertTriangle, Calendar, Clock } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
@@ -121,6 +121,14 @@ export const DoctorHome = () => {
           </NavLink>
         </CardFooter>
       </Card>
+      {upcomingAppointments?.length === 0 ? (
+        <p>
+          <AlertTriangle className="inline" size={15} /> Complete the profile
+          setup and set your schedule if you haven't
+        </p>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
