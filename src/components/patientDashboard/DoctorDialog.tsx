@@ -31,7 +31,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import DoctorAvailableTimee from "./DoctorAvailableTime";
+import DoctorAvailableTimee from "../DoctorAvailableTime";
 import { toast } from "sonner";
 import { DoctorPersonalInfo } from "@/interface/doctor/personalInfo";
 import { NavLink } from "react-router";
@@ -71,6 +71,9 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
       toast("Please select an appointment time.");
       return;
     }
+    if (!selectedHealthIssue) {
+      toast.warning("Select health issue");
+    }
     const appointmentData = {
       doctor_id: doctor.id,
       health_issues_id: selectedHealthIssue, // Replace with actual selected health issue ID
@@ -95,7 +98,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
       }
     } catch (error) {
       console.error("Error booking appointment:", error);
-      alert("An error occurred. Please try again later.");
+      // alert("An error occurred. Please try again later.");
     }
   };
 
@@ -254,7 +257,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
                       animate={{ x: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                      <Button size="lg" onClick={() => handleBookAppointment()}>
+                      <Button size="lg" onClick={handleBookAppointment}>
                         <Check />
                       </Button>
                     </motion.div>

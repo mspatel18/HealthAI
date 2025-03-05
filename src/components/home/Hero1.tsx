@@ -54,8 +54,14 @@ export const Hero1 = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
         className="mb-4"
+        onClick={(e) => {
+          e.preventDefault();
+          document
+            .querySelector("#get-started")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
       >
-        <ChevronDown className="animate-bounce" />
+        <ChevronDown className="animate-bounce cursor-pointer" size={30} />
       </motion.div>
     </motion.section>
   );

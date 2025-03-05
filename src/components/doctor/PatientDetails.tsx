@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { FileImage, Mail, Phone } from "lucide-react";
+import { Check, FileImage, Mail, Phone } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import axios from "axios";
 import {
   Select,
@@ -14,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
-import DoctorAvailableTimee from "../patientDashboard/DoctorAvailableTime";
+import DoctorAvailableTimee from "../DoctorAvailableTime";
 import { toast } from "sonner";
 interface HealthIssue {
   report_pdf: string;
@@ -51,11 +57,11 @@ export const PatientDetails = ({
   const [patient, setPatient] = useState<Patient | null>(null);
   const [showReschedule, setShowReschedule] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
-
+  const [confirmed, setConfirmed] = useState(false);
   const [selectedHealthIssue, setSelectedHealthIssue] = useState(0);
   const handleBookAppointment = async () => {
     if (!selectedTimeSlot) {
-      toast("Please select an appointment time.");
+      toast.warning("Please select an appointment time.");
       return;
     }
     const appointmentData = {
@@ -161,48 +167,54 @@ export const PatientDetails = ({
       </Card>
       {patient.health_issues && (
         <>
-          <p className="text-lg font-semibold">Ai Generated Diagnoses</p>
+          <p className="text-lg font-semibold">Patient Health Issues</p>
           <Card>
-            <CardHeader>
-              <CardTitle>Health Issues</CardTitle>
-            </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              {patient.health_issues.map((issue, idx) => (
-                <div key={idx} className="border-b pb-2 last:border-0">
-                  {issue.diagnosis && (
-                    <p className="font-medium text-blue-600">
-                      Diagnosis*: {issue.diagnosis}
-                    </p>
-                  )}
-
-                  <p className="text-sm text-gray-500">
-                    Symptoms: {issue.symptoms}
-                  </p>
-                  {issue.solution && (
-                    <p className="text-sm text-gray-500">
-                      Solution: {issue.solution}
-                    </p>
-                  )}
-                  {issue.report_image && (
-                    <div>
-                      <a href={issue.report_image} target="_blank">
-                        <Button variant="ghost" size="sm">
-                          <FileImage /> Image
-                        </Button>
-                      </a>
-                    </div>
-                  )}
-                  {issue.report_pdf && (
-                    <div>
-                      <a href={issue.report_pdf} target="_blank">
-                        <Button variant="ghost" size="sm">
-                          <FileImage /> Pdf
-                        </Button>
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ))}
+              <Accordion type="single" collapsible>
+                {patient.health_issues.map((issue, idx) => (
+                  <AccordionItem key={idx} value={`issue-${idx}`}>
+                    <AccordionTrigger className="truncate">
+                      <p className="truncate font-medium text-blue-600">
+                        {issue.symptoms}
+                      </p>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-sm text-gray-500">
+                        Symptoms: {issue.symptoms}
+                      </p>
+                      {issue.diagnosis && (
+                        <p className="text-sm text-gray-500">
+                          Diagnosis*: {issue.diagnosis}
+                        </p>
+                      )}
+                      {issue.solution && (
+                        <p className="text-sm text-gray-500">
+                          Image analysis*:{" "}
+                          {JSON.parse(issue.solution).predicted_class}
+                        </p>
+                      )}
+                      {issue.report_image && (
+                        <div>
+                          <a href={issue.report_image} target="_blank">
+                            <Button variant="ghost" size="sm">
+                              <FileImage /> Image
+                            </Button>
+                          </a>
+                        </div>
+                      )}
+                      {issue.report_pdf && (
+                        <div>
+                          <a href={issue.report_pdf} target="_blank">
+                            <Button variant="ghost" size="sm">
+                              <FileImage /> Pdf
+                            </Button>
+                          </a>
+                        </div>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </CardContent>
           </Card>
         </>
@@ -238,11 +250,38 @@ export const PatientDetails = ({
             ))}
           </SelectContent>
         </Select>
-        <Button variant="outline" onClick={handleBookAppointment}>
-          Book Appointment
-        </Button>
+        <div className="flex gap-1 overflow-hidden">
+          <motion.div
+            className="w-full"
+            layout
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={() => setConfirmed(!confirmed)}
+            >
+              Book Appointment
+            </Button>
+          </motion.div>
+
+          {confirmed && (
+            <motion.div
+              initial={{ x: 50 }}
+              animate={{ x: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Button size="lg" onClick={handleBookAppointment}>
+                <Check />
+              </Button>
+            </motion.div>
+          )}
+        </div>
       </motion.div>
-      <Button onClick={() => setShowReschedule(!showReschedule)}>
+      <Button
+        variant="outline"
+        onClick={() => setShowReschedule(!showReschedule)}
+      >
         Reschedule
       </Button>
     </div>

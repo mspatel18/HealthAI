@@ -141,6 +141,14 @@ export const HealthIssues = () => {
                           </div>
                         </div>
                       )}
+                      {entry.solution && (
+                        <h3 className="text-sm font-medium">
+                          AI Image Prediction*:{" "}
+                          <span className="text-muted-foreground font-normal">
+                            {JSON.parse(entry.solution).predicted_class}
+                          </span>
+                        </h3>
+                      )}
                       {entry.report_pdf && (
                         <a
                           href={entry.report_pdf}
@@ -153,7 +161,9 @@ export const HealthIssues = () => {
                       )}
 
                       <div>
-                        <h3 className="mb-1 text-sm font-medium">Diagnosis*</h3>
+                        <h3 className="mb-1 text-sm font-medium">
+                          AI Diagnosis*
+                        </h3>
                         <div className="bg-primary/5 rounded-md border p-2">
                           <p className="text-primary text-sm font-medium">
                             {entry.diagnosis}

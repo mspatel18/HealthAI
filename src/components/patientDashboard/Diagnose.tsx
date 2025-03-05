@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Send, ScanHeart, Paperclip, RefreshCw, FileImage } from "lucide-react";
+import {
+  Send,
+  ScanHeart,
+  Paperclip,
+  RefreshCw,
+  FileImage,
+  ExternalLink,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -15,7 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Separator } from "../ui/separator";
 interface HealthIssueInterface {
   id: number;
   patient_id: number;
@@ -114,7 +127,7 @@ export const Diagnose = () => {
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex h-[80vh] flex-col items-center justify-center p-4 text-center sm:p-6"
+      className="flex h-auto flex-col items-center justify-center p-4 text-center sm:h-[80vh] sm:p-6"
     >
       {!result ? (
         // Input Form UI
@@ -140,7 +153,7 @@ export const Diagnose = () => {
               </Button>
             ))}
           </div>
-          <div className="mt-6 flex w-full max-w-xl flex-col rounded-lg border border-gray-300 bg-white shadow-md md:max-w-[60vw]">
+          <div className="mt-6 flex w-full max-w-xl flex-col rounded-lg border border-gray-300 bg-white shadow-md md:max-w-3xl lg:max-w-4xl">
             <textarea
               className="w-full resize-none border-none p-3 text-sm outline-0 sm:text-base"
               placeholder="Get your medical diagnosis with help of AI..."
@@ -156,8 +169,8 @@ export const Diagnose = () => {
               }
             />
             <div className="mt-6 flex flex-col items-stretch border-t border-t-blue-100 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 p-3">
-              <div className="flex justify-between">
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+                <div className="flex flex-col items-center gap-4 sm:flex-row">
                   <Label htmlFor="image-type">
                     <Select
                       onValueChange={(value) =>
@@ -177,46 +190,71 @@ export const Diagnose = () => {
                       </SelectContent>
                     </Select>
                   </Label>
-                  <Label htmlFor="select-file">
-                    <FileImage size={20} className="m-1 cursor-pointer" />
-                  </Label>
-                  <Input
-                    id="select-file"
-                    type="file"
-                    accept=".jpg,.png"
-                    className="hidden"
-                    onChange={(e) =>
-                      setMessage({
-                        ...message,
-                        report_image: e.target.files
-                          ? e.target.files[0]
-                          : undefined,
-                      })
-                    }
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Label htmlFor="select-file">
+                          <FileImage size={20} className="m-1 cursor-pointer" />
+                        </Label>
+                        <Input
+                          id="select-file"
+                          type="file"
+                          accept=".jpg,.png"
+                          className="hidden"
+                          onChange={(e) =>
+                            setMessage({
+                              ...message,
+                              report_image: e.target.files
+                                ? e.target.files[0]
+                                : undefined,
+                            })
+                          }
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Attach image according to type selected</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <Separator
+                    orientation="vertical"
+                    className="hidden sm:block"
                   />
-                  <Label
-                    htmlFor="select-pdf"
-                    className="flex cursor-pointer items-center justify-center"
-                  >
-                    <p>Attach PDF</p>
-                    <Paperclip size={20} className="m-1" />
-                    <Input
-                      id="select-pdf"
-                      type="file"
-                      accept=".pdf"
-                      className="hidden"
-                      onChange={(e) =>
-                        setMessage({
-                          ...message,
-                          report_pdf: e.target.files
-                            ? e.target.files[0]
-                            : undefined,
-                        })
-                      }
-                    />
-                  </Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Label
+                          htmlFor="select-pdf"
+                          className="flex cursor-pointer items-center"
+                        >
+                          <p className="font-normal">Attach PDF</p>
+                          <Paperclip size={20} className="m-1" />
+                        </Label>
+                        <Input
+                          id="select-pdf"
+                          type="file"
+                          accept=".pdf"
+                          className="hidden"
+                          onChange={(e) =>
+                            setMessage({
+                              ...message,
+                              report_pdf: e.target.files
+                                ? e.target.files[0]
+                                : undefined,
+                            })
+                          }
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Attach your previous prescription or any other PDF for
+                          the doctor
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex justify-center sm:justify-end">
                   <Button
                     className="rounded-full p-2 text-white"
                     onClick={handleSubmit}
@@ -226,7 +264,7 @@ export const Diagnose = () => {
                   </Button>
                 </div>
               </div>
-              <p className="text-muted-foreground p-2 text-sm">
+              <p className="text-muted-foreground p-2 text-xs sm:text-sm">
                 AI-generated response can make mistakes. Consult a doctor before
                 taking any medication.
               </p>
@@ -268,9 +306,10 @@ export const Diagnose = () => {
                 {typeof result.report_image === "string" && (
                   <a
                     href={result.report_image}
-                    className="text-left text-lg font-semibold text-gray-800"
+                    className="flex items-center justify-start gap-2 text-left text-gray-800"
+                    target="_blank"
                   >
-                    Image
+                    Image <ExternalLink size={15} />
                   </a>
                 )}
               </div>
@@ -287,10 +326,13 @@ export const Diagnose = () => {
             {result.solution && (
               <div className="border-b border-b-gray-200 p-3">
                 <h3 className="text-left text-lg font-semibold text-gray-800">
-                  Recommended Steps
+                  Image Analysis
                 </h3>
                 <p className="mt-2 text-left text-sm text-gray-600">
-                  {result.solution}
+                  Task: {JSON.parse(result.solution).task}
+                </p>
+                <p className="mt-2 text-left text-sm text-gray-600">
+                  Prediction: {JSON.parse(result.solution).predicted_class}
                 </p>
               </div>
             )}

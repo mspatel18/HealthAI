@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 interface TimeSlot {
@@ -97,6 +97,7 @@ const DoctorAvailableTime = ({
         </PopoverTrigger>
         <PopoverContent>
           <Calendar
+            required
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
