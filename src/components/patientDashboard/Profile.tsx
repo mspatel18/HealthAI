@@ -160,7 +160,7 @@ export const Profile = () => {
       {!loading ? (
         <>
           {/* Header Section */}
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-6 flex flex-wrap items-center gap-4">
             <Avatar className="h-16 w-16">
               <AvatarImage
                 className="object-cover"

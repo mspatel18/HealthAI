@@ -7,6 +7,7 @@ import { RootState } from "@/redux/store";
 import axios from "axios";
 import { SetHoliday } from "./SetHoliday";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 
 interface TimeSlot {
   start: string;
@@ -26,7 +27,9 @@ type WeeklySchedule = {
 export default function SetAvailability() {
   const token = useSelector((state: RootState) => state.auth.token);
   const [schedule, setSchedule] = useState<WeeklySchedule>({});
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     const fetchSchedule = async () => {
       try {
         const response = await axios.get(
@@ -76,6 +79,8 @@ export default function SetAvailability() {
         setSchedule(newSchedule);
       } catch (error) {
         console.error("Error fetching schedule", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -181,95 +186,126 @@ export default function SetAvailability() {
             Save
           </Button>
         </div>
-
-        {/* Days List */}
-        <div className="space-y-4">
-          {Object.entries(schedule).map(([day, { enabled, slots }]) => (
-            <div
-              key={day}
-              className="flex flex-col items-start gap-4 sm:flex-row sm:items-center"
-            >
-              {/* Checkbox & Day Name */}
-              <div className="flex w-full items-center sm:w-24">
-                <Checkbox
-                  checked={enabled}
-                  onCheckedChange={() => toggleDay(day)}
-                  id={`day-${day}`}
-                />
-                <label
-                  htmlFor={`day-${day}`}
-                  className="ml-2 text-sm font-medium"
+        {!loading ? (
+          <>
+            {/* Days List */}
+            <div className="space-y-4">
+              {Object.entries(schedule).map(([day, { enabled, slots }]) => (
+                <div
+                  key={day}
+                  className="flex flex-col items-start gap-4 sm:flex-row sm:items-center"
                 >
-                  {day}
-                </label>
-              </div>
-
-              {/* Slots */}
-              <div className="w-full flex-1">
-                {!enabled ? (
-                  <div className="text-sm text-gray-500">Unavailable</div>
-                ) : (
-                  <div className="space-y-2">
-                    {slots.map((slot, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-wrap items-center gap-2 sm:flex-nowrap"
-                      >
-                        <input
-                          type="time"
-                          value={slot.start}
-                          onChange={(e) =>
-                            updateTimeSlot(day, index, "start", e.target.value)
-                          }
-                          className="w-full rounded border px-2 py-1 text-sm sm:w-auto"
-                        />
-                        <span>-</span>
-                        <input
-                          type="time"
-                          value={slot.end}
-                          onChange={(e) =>
-                            updateTimeSlot(day, index, "end", e.target.value)
-                          }
-                          className="w-full rounded border px-2 py-1 text-sm sm:w-auto"
-                        />
-                        <input
-                          type="text"
-                          value={slot.location}
-                          onChange={(e) =>
-                            updateTimeSlot(
-                              day,
-                              index,
-                              "location",
-                              e.target.value,
-                            )
-                          }
-                          placeholder="Location"
-                          className="w-full flex-grow rounded border px-2 py-1 text-sm"
-                        />
-                        <button
-                          onClick={() => removeTimeSlot(day, index)}
-                          className="text-gray-400 hover:text-gray-600"
-                        >
-                          <X size={16} />
-                        </button>
-                      </div>
-                    ))}
+                  {/* Checkbox & Day Name */}
+                  <div className="flex w-full items-center sm:w-24">
+                    <Checkbox
+                      checked={enabled}
+                      onCheckedChange={() => toggleDay(day)}
+                      id={`day-${day}`}
+                    />
+                    <label
+                      htmlFor={`day-${day}`}
+                      className="ml-2 text-sm font-medium"
+                    >
+                      {day}
+                    </label>
                   </div>
-                )}
-              </div>
 
-              {/* Add Slot Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => addTimeSlot(day)}
-                disabled={!enabled}
-              >
-                <Plus size={16} className="text-primary" />
-              </Button>
+                  {/* Slots */}
+                  <div className="w-full flex-1">
+                    {!enabled ? (
+                      <div className="text-sm text-gray-500">Unavailable</div>
+                    ) : (
+                      <div className="space-y-2">
+                        {slots.map((slot, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-wrap items-center gap-2 sm:flex-nowrap"
+                          >
+                            <input
+                              type="time"
+                              value={slot.start}
+                              onChange={(e) =>
+                                updateTimeSlot(
+                                  day,
+                                  index,
+                                  "start",
+                                  e.target.value,
+                                )
+                              }
+                              className="w-full rounded border px-2 py-1 text-sm sm:w-auto"
+                            />
+                            <span>-</span>
+                            <input
+                              type="time"
+                              value={slot.end}
+                              onChange={(e) =>
+                                updateTimeSlot(
+                                  day,
+                                  index,
+                                  "end",
+                                  e.target.value,
+                                )
+                              }
+                              className="w-full rounded border px-2 py-1 text-sm sm:w-auto"
+                            />
+                            <input
+                              type="text"
+                              value={slot.location}
+                              onChange={(e) =>
+                                updateTimeSlot(
+                                  day,
+                                  index,
+                                  "location",
+                                  e.target.value,
+                                )
+                              }
+                              placeholder="Location"
+                              className="w-full flex-grow rounded border px-2 py-1 text-sm"
+                            />
+                            <button
+                              onClick={() => removeTimeSlot(day, index)}
+                              className="text-gray-400 hover:text-gray-600"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Add Slot Button */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => addTimeSlot(day)}
+                    disabled={!enabled}
+                  >
+                    <Plus size={16} className="text-primary" />
+                  </Button>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          <>
+            <div className="space-y-4">
+              {[...Array(7)].map((_, i) => (
+                <div key={i} className="flex flex-wrap items-center gap-4">
+                  <Skeleton className="h-5 w-28 rounded-md" /> {/* Day Label */}
+                  <Skeleton className="h-6 w-24 rounded-md" />{" "}
+                  {/* Start Time */}
+                  <span className="text-gray-400">-</span>
+                  <Skeleton className="h-6 w-24 rounded-md" /> {/* End Time */}
+                  <Skeleton className="h-6 w-full rounded-md" /> {/* Clinic */}
+                  <Skeleton className="h-6 w-6 rounded-full" />{" "}
+                  {/* Remove Icon */}
+                  <Skeleton className="h-6 w-6 rounded-full" /> {/* Add Icon */}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
       <SetHoliday />
     </>

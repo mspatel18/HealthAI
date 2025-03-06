@@ -415,7 +415,7 @@ const CalendarWeekView = () => {
           <div
             key={date.toString()}
             className={cn(
-              "text-muted-foreground flex flex-1 items-center justify-center gap-1 pb-2 text-center text-sm",
+              "text-muted-foreground flex flex-1 items-center justify-center gap-1 pb-2 text-center text-xs sm:text-sm",
               [0, 6].includes(i) && "text-muted-foreground/50",
             )}
           >
@@ -424,7 +424,7 @@ const CalendarWeekView = () => {
               className={cn(
                 "grid h-6 place-content-center",
                 isToday(date) &&
-                  "bg-primary text-primary-foreground size-6 rounded-full",
+                  "bg-primary text-primary sm:text-primary-foreground size-0 rounded-full sm:size-6",
               )}
             >
               {format(date, "d")}

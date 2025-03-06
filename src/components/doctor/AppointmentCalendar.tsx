@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axios from "axios";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 
 interface AppointmentInterface {
   appointment_id: number;
@@ -37,8 +38,9 @@ export const AppointmentCalendar = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   // const [appointments, setAppointments] = useState<AppointmentInterface[]>([]);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
@@ -70,6 +72,8 @@ export const AppointmentCalendar = () => {
       } catch (error) {
         toast.error("Error occured");
         console.error("Error fetching appointments:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -82,58 +86,85 @@ export const AppointmentCalendar = () => {
 
   return (
     <>
-      {events.length > 0 ? (
-        <div className="overflow-scroll">
-          <Calendar events={events}>
-            <div className="flex h-dvh flex-col py-6">
-              <div className="mb-6 flex flex-col items-start justify-between gap-2 px-6 sm:flex-row">
-                <div>
-                  <CalendarViewTrigger
-                    className="aria-[current=true]:bg-accent"
-                    view="day"
-                  >
-                    Day
-                  </CalendarViewTrigger>
-                  <CalendarViewTrigger
-                    view="week"
-                    className="aria-[current=true]:bg-accent"
-                  >
-                    Week
-                  </CalendarViewTrigger>
-                  <CalendarViewTrigger
-                    view="month"
-                    className="aria-[current=true]:bg-accent"
-                  >
-                    Month
-                  </CalendarViewTrigger>
+      {!loading ? (
+        <>
+          {events.length > 0 ? (
+            <div className="overflow-scroll">
+              <Calendar events={events}>
+                <div className="flex h-dvh flex-col py-6">
+                  <div className="mb-6 flex flex-col flex-wrap items-start justify-between gap-2 px-6 sm:flex-row">
+                    <div>
+                      <CalendarViewTrigger
+                        className="aria-[current=true]:bg-accent"
+                        view="day"
+                      >
+                        Day
+                      </CalendarViewTrigger>
+                      <CalendarViewTrigger
+                        view="week"
+                        className="aria-[current=true]:bg-accent"
+                      >
+                        Week
+                      </CalendarViewTrigger>
+                      <CalendarViewTrigger
+                        view="month"
+                        className="aria-[current=true]:bg-accent"
+                      >
+                        Month
+                      </CalendarViewTrigger>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <CalendarCurrentDate />
+
+                      <CalendarPrevTrigger>
+                        <ChevronLeft size={20} />
+                        <span className="sr-only">Previous</span>
+                      </CalendarPrevTrigger>
+
+                      <CalendarTodayTrigger>Today</CalendarTodayTrigger>
+
+                      <CalendarNextTrigger>
+                        <ChevronRight size={20} />
+                        <span className="sr-only">Next</span>
+                      </CalendarNextTrigger>
+                    </div>
+                  </div>
+
+                  <div className="relative flex-1 overflow-auto px-6">
+                    <CalendarDayView />
+                    <CalendarWeekView />
+                    <CalendarMonthView />
+                  </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <CalendarCurrentDate />
-
-                  <CalendarPrevTrigger>
-                    <ChevronLeft size={20} />
-                    <span className="sr-only">Previous</span>
-                  </CalendarPrevTrigger>
-
-                  <CalendarTodayTrigger>Today</CalendarTodayTrigger>
-
-                  <CalendarNextTrigger>
-                    <ChevronRight size={20} />
-                    <span className="sr-only">Next</span>
-                  </CalendarNextTrigger>
-                </div>
-              </div>
-
-              <div className="relative flex-1 overflow-auto px-6">
-                <CalendarDayView />
-                <CalendarWeekView />
-                <CalendarMonthView />
-              </div>
+              </Calendar>
             </div>
-          </Calendar>
-        </div>
+          ) : (
+            <p>No Appointments booked</p>
+          )}
+        </>
       ) : (
-        <p>No Appointments booked</p>
+        <div className="p-6">
+          {/* View Toggle */}
+          <div className="flex flex-wrap justify-between">
+            <div className="mb-4 flex flex-wrap gap-2">
+              <Skeleton className="h-10 w-16 rounded-md" />
+              <Skeleton className="h-10 w-16 rounded-md" />
+              <Skeleton className="h-10 w-16 rounded-md" />
+            </div>
+
+            {/* Calendar Header */}
+            <div className="mb-4 flex items-center justify-between gap-2">
+              <Skeleton className="h-10 w-10 rounded-md" />
+              <Skeleton className="h-10 w-30 rounded-md" />
+              <Skeleton className="h-10 w-10 rounded-md" />
+            </div>
+          </div>
+
+          {/* Calendar Grid */}
+          <div>
+            <Skeleton className="h-96 w-full" />
+          </div>
+        </div>
       )}
     </>
   );

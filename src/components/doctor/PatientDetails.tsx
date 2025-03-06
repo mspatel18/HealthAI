@@ -22,6 +22,7 @@ import {
 import { motion } from "framer-motion";
 import DoctorAvailableTimee from "../DoctorAvailableTime";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 interface HealthIssue {
   report_pdf: string;
   id: number;
@@ -109,8 +110,6 @@ export const PatientDetails = ({
     fetchPatientDetails();
   }, [event.id, token]);
 
-  if (!patient) return <p>Loading...</p>;
-
   const handleTimeSlotSelection = (selectedSlot: string) => {
     //console.log(selectedTimeSlot);
 
@@ -119,172 +118,183 @@ export const PatientDetails = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-lg font-semibold">Personal Detail</p>
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-start gap-3">
-            <Avatar className="h-12 w-12">
-              <AvatarImage
-                className="object-cover"
-                src={patient.profile_photo}
-              />
-            </Avatar>
-            <div>
-              <p className="text-lg font-semibold">{event.title} </p>
-              <div className="text-muted-foreground flex gap-1 text-sm">
-                <p>
-                  <Phone size={15} className="inline" /> 987456321
-                </p>
-                •
-                <p>
-                  <Mail size={15} className="inline" /> m@gmail.com
-                </p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <ul className="mt-5 flex flex-col gap-3 text-sm font-semibold [&_span]:font-normal">
-              <li>
-                DOB: <span>{patient.date_of_birth}</span>
-              </li>
-              <li>
-                Gender: <span>{patient.gender}</span>
-              </li>
-              <li>
-                Medical History: <span>{patient.medical_history}</span>
-              </li>
-              <li>
-                Address: <span>{patient.address}</span>
-              </li>
-              <li>
-                Weight: <span>{patient.weight}</span>
-              </li>
-              <li>
-                Blood Group: <span>{patient.blood_group}</span>
-              </li>
-            </ul>
-          </div>
-        </CardHeader>
-      </Card>
-      {patient.health_issues && (
+      {patient ? (
         <>
-          <p className="text-lg font-semibold">Patient Health Issues</p>
+          {" "}
+          <p className="text-lg font-semibold">Personal Detail</p>
           <Card>
-            <CardContent className="flex flex-col gap-4">
-              <Accordion type="single" collapsible>
-                {patient.health_issues.map((issue, idx) => (
-                  <AccordionItem key={idx} value={`issue-${idx}`}>
-                    <AccordionTrigger className="truncate">
-                      <p className="text-primary truncate font-medium">
-                        {issue.symptoms}
-                      </p>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-sm text-gray-500">
-                        Symptoms: {issue.symptoms}
-                      </p>
-                      {issue.diagnosis && (
-                        <p className="text-sm text-gray-500">
-                          Diagnosis*: {issue.diagnosis}
-                        </p>
-                      )}
-                      {issue.solution && (
-                        <p className="text-sm text-gray-500">
-                          Image analysis*:{" "}
-                          {JSON.parse(issue.solution).predicted_class}
-                        </p>
-                      )}
-                      {issue.report_image && (
-                        <div>
-                          <a href={issue.report_image} target="_blank">
-                            <Button variant="ghost" size="sm">
-                              <FileImage /> Image
-                            </Button>
-                          </a>
-                        </div>
-                      )}
-                      {issue.report_pdf && (
-                        <div>
-                          <a href={issue.report_pdf} target="_blank">
-                            <Button variant="ghost" size="sm">
-                              <FileImage /> Pdf
-                            </Button>
-                          </a>
-                        </div>
-                      )}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </CardContent>
+            <CardHeader>
+              <div className="flex items-center justify-start gap-3">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage
+                    className="object-cover"
+                    src={patient.profile_photo}
+                  />
+                </Avatar>
+                <div>
+                  <p className="text-lg font-semibold">{event.title} </p>
+                  <div className="text-muted-foreground flex gap-1 text-sm">
+                    <p>
+                      <Phone size={15} className="inline" /> 987456321
+                    </p>
+                    •
+                    <p>
+                      <Mail size={15} className="inline" /> m@gmail.com
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <ul className="mt-5 flex flex-col gap-3 text-sm font-semibold [&_span]:font-normal">
+                  <li>
+                    DOB: <span>{patient.date_of_birth}</span>
+                  </li>
+                  <li>
+                    Gender: <span>{patient.gender}</span>
+                  </li>
+                  <li>
+                    Medical History: <span>{patient.medical_history}</span>
+                  </li>
+                  <li>
+                    Address: <span>{patient.address}</span>
+                  </li>
+                  <li>
+                    Weight: <span>{patient.weight}</span>
+                  </li>
+                  <li>
+                    Blood Group: <span>{patient.blood_group}</span>
+                  </li>
+                </ul>
+              </div>
+            </CardHeader>
           </Card>
+          {patient.health_issues && (
+            <>
+              <p className="text-lg font-semibold">Patient Health Issues</p>
+              <Card>
+                <CardContent className="flex flex-col gap-4">
+                  <Accordion type="single" collapsible>
+                    {patient.health_issues.map((issue, idx) => (
+                      <AccordionItem key={idx} value={`issue-${idx}`}>
+                        <AccordionTrigger className="truncate">
+                          <p className="text-primary truncate font-medium">
+                            {issue.symptoms}
+                          </p>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <p className="text-sm text-gray-500">
+                            Symptoms: {issue.symptoms}
+                          </p>
+                          {issue.diagnosis && (
+                            <p className="text-sm text-gray-500">
+                              Diagnosis*: {issue.diagnosis}
+                            </p>
+                          )}
+                          {issue.solution && (
+                            <p className="text-sm text-gray-500">
+                              Image analysis*:{" "}
+                              {JSON.parse(issue.solution).predicted_class}
+                            </p>
+                          )}
+                          {issue.report_image && (
+                            <div>
+                              <a href={issue.report_image} target="_blank">
+                                <Button variant="ghost" size="sm">
+                                  <FileImage /> Image
+                                </Button>
+                              </a>
+                            </div>
+                          )}
+                          {issue.report_pdf && (
+                            <div>
+                              <a href={issue.report_pdf} target="_blank">
+                                <Button variant="ghost" size="sm">
+                                  <FileImage /> Pdf
+                                </Button>
+                              </a>
+                            </div>
+                          )}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            </>
+          )}
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{
+              height: showReschedule ? 400 : 0,
+            }}
+            transition={{ duration: 0.5 }}
+            className="flex h-40 w-full flex-col gap-3 overflow-hidden"
+          >
+            <DoctorAvailableTimee
+              id={6}
+              onTimeSlotSelect={handleTimeSlotSelection}
+              role="doctor"
+            />
+            <Select
+              onValueChange={(value) => setSelectedHealthIssue(parseInt(value))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Issue" />
+              </SelectTrigger>
+              <SelectContent>
+                {patient.health_issues.map((issue) => (
+                  <SelectItem
+                    value={issue.id.toString()}
+                    key={issue.id}
+                    className="capitalize"
+                  >
+                    {issue.diagnosis}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="flex gap-1 overflow-hidden">
+              <motion.div
+                className="w-full"
+                layout
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                <Button
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setConfirmed(!confirmed)}
+                >
+                  Book Appointment
+                </Button>
+              </motion.div>
+
+              {confirmed && (
+                <motion.div
+                  initial={{ x: 50 }}
+                  animate={{ x: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <Button size="lg" onClick={handleBookAppointment}>
+                    <Check />
+                  </Button>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+          <Button
+            variant="outline"
+            onClick={() => setShowReschedule(!showReschedule)}
+          >
+            Reschedule
+          </Button>
+        </>
+      ) : (
+        <>
+          <div className="h-full w-md">
+            <Skeleton className="h-96 w-full rounded-md" />
+          </div>
         </>
       )}
-      <motion.div
-        initial={{ height: 0 }}
-        animate={{
-          height: showReschedule ? 400 : 0,
-        }}
-        transition={{ duration: 0.5 }}
-        className="flex h-40 w-full flex-col gap-3 overflow-hidden"
-      >
-        <DoctorAvailableTimee
-          id={6}
-          onTimeSlotSelect={handleTimeSlotSelection}
-          role="doctor"
-        />
-        <Select
-          onValueChange={(value) => setSelectedHealthIssue(parseInt(value))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select Issue" />
-          </SelectTrigger>
-          <SelectContent>
-            {patient.health_issues.map((issue) => (
-              <SelectItem
-                value={issue.id.toString()}
-                key={issue.id}
-                className="capitalize"
-              >
-                {issue.diagnosis}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <div className="flex gap-1 overflow-hidden">
-          <motion.div
-            className="w-full"
-            layout
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <Button
-              size="lg"
-              className="w-full"
-              onClick={() => setConfirmed(!confirmed)}
-            >
-              Book Appointment
-            </Button>
-          </motion.div>
-
-          {confirmed && (
-            <motion.div
-              initial={{ x: 50 }}
-              animate={{ x: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <Button size="lg" onClick={handleBookAppointment}>
-                <Check />
-              </Button>
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
-      <Button
-        variant="outline"
-        onClick={() => setShowReschedule(!showReschedule)}
-      >
-        Reschedule
-      </Button>
     </div>
   );
 };
