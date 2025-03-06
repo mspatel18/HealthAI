@@ -61,7 +61,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
   const [doctorDetails, setDoctorDetails] =
     useState<Partial<DoctorPersonalInfo>>();
   const handleTimeSlotSelection = (selectedSlot: string) => {
-    console.log(selectedTimeSlot);
+    //console.log(selectedTimeSlot);
 
     setSelectedTimeSlot(selectedSlot);
   };
@@ -88,7 +88,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      // console.log(response);
+      // //console.log(response);
 
       if (response.status === 201) {
         toast.success("Appointment booked successfully!");
@@ -118,12 +118,12 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      console.log(healthIssueResponse);
+      //console.log(healthIssueResponse);
 
       if (healthIssueResponse.status === 200) {
         setHealthIssues(healthIssueResponse.data.data);
       }
-      // console.log(response);
+      // //console.log(response);
       if (response.status === 200) setDoctorDetails(response.data);
     } catch (error) {
       toast.error(String(error));
@@ -291,6 +291,34 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
                 <div>
                   <p className="text-sm text-gray-500">Languages Spoken</p>
                   <p>{doctorDetails?.languages_spoken}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">
+                    Online consultation availability
+                  </p>
+                  <p>
+                    {doctorDetails?.online_consultation_availability
+                      ? "Yes"
+                      : "No"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Walk in availability</p>
+                  <p>{doctorDetails?.walk_in_availability ? "Yes" : "No"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">
+                    Appointment booking required
+                  </p>
+                  <p>
+                    {doctorDetails?.appointment_booking_required ? "Yes" : "No"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">
+                    Time of one appointment
+                  </p>
+                  <p>{doctorDetails?.time_of_one_appointment}</p>
                 </div>
               </div>
             </div>

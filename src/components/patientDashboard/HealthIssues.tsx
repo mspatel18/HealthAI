@@ -90,6 +90,9 @@ export const HealthIssues = () => {
           <CardDescription>Patient assessments and diagnoses</CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
+          <NavLink to="/patient/">
+            <Button>Add Issue</Button>
+          </NavLink>
           <Accordion type="single" collapsible className="w-full">
             {healthIssues?.length ? (
               healthIssues.map((entry, index) => (
@@ -177,9 +180,6 @@ export const HealthIssues = () => {
             ) : (
               <>
                 <p>No issues found</p>
-                <NavLink to="/patient/">
-                  <Button>Add Issue</Button>
-                </NavLink>
               </>
             )}
           </Accordion>

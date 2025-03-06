@@ -78,7 +78,7 @@ export const PatientDetails = ({
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      // console.log(response);
+      // //console.log(response);
 
       if (response.status === 201) {
         toast("Appointment booked successfully!");
@@ -98,11 +98,12 @@ export const PatientDetails = ({
           { id: event.id },
           { headers: { Authorization: `Bearer ${token}` } },
         );
-        console.log(response);
+        //console.log(response);
 
         setPatient(response.data.patient);
       } catch (error) {
-        console.log(error);
+        toast.error(String(error));
+        //console.log(error);
       }
     };
     fetchPatientDetails();
@@ -111,7 +112,7 @@ export const PatientDetails = ({
   if (!patient) return <p>Loading...</p>;
 
   const handleTimeSlotSelection = (selectedSlot: string) => {
-    console.log(selectedTimeSlot);
+    //console.log(selectedTimeSlot);
 
     setSelectedTimeSlot(selectedSlot);
   };
@@ -174,7 +175,7 @@ export const PatientDetails = ({
                 {patient.health_issues.map((issue, idx) => (
                   <AccordionItem key={idx} value={`issue-${idx}`}>
                     <AccordionTrigger className="truncate">
-                      <p className="truncate font-medium text-blue-600">
+                      <p className="text-primary truncate font-medium">
                         {issue.symptoms}
                       </p>
                     </AccordionTrigger>

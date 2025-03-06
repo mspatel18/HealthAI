@@ -89,7 +89,7 @@ export const Diagnose = () => {
           },
         },
       );
-      console.log("Response:", response);
+      //console.log("Response:", response);
       if (response.status === 201) {
         // Set the result with the response data
         setResult(response.data.data);
@@ -320,7 +320,7 @@ export const Diagnose = () => {
                 Possible Diagnosis
               </h3>
               <div className="mt-2 rounded-md bg-blue-50 p-3 text-left">
-                <p className="font-medium text-blue-800">{result.diagnosis}</p>
+                <p className="text-primary font-medium">{result.diagnosis}</p>
               </div>
             </div>
 

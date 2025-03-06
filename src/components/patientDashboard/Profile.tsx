@@ -55,7 +55,7 @@ export const Profile = () => {
   const [isUploading, setIsUploading] = useState(false);
   const handleUpdateProfile = async () => {
     setIsUploading(true);
-    console.log(editData);
+    //console.log(editData);
 
     try {
       const formData = new FormData();
@@ -79,7 +79,7 @@ export const Profile = () => {
           },
         },
       );
-      console.log(response);
+      //console.log(response);
 
       if (response.status === 200) {
         setPersonalInfo(response.data.patient);
@@ -105,14 +105,14 @@ export const Profile = () => {
             },
           },
         );
-        console.log(response);
+        //console.log(response);
 
         if (response.status === 200) {
           setPersonalInfo(response.data.patient);
           setEditData(response.data.patient);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     const fetchAppointments = async () => {
@@ -129,16 +129,16 @@ export const Profile = () => {
         if (response.status === 200) {
           setAppointments(response.data.appointments);
         }
-        console.log(response);
+        //console.log(response);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     fetchAppointments();
     fetchProfileDetails();
   }, [token]);
   useEffect(() => {
-    console.log(editData);
+    //console.log(editData);
   }, [editData]);
   const currentDate = new Date();
 
@@ -434,7 +434,7 @@ export const Profile = () => {
                 >
                   <div className="absolute left-0 h-4 w-4 -translate-x-1/2 rounded-full bg-blue-500" />
                   <div>
-                    <p className="text-sm font-medium text-blue-500">
+                    <p className="text-primary text-sm font-medium">
                       {new Date(
                         appointment.appointment_date + "Z",
                       ).toLocaleString()}{" "}

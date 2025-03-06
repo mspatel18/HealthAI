@@ -84,7 +84,7 @@ export function DoctorRegisterForm({
 
     setLoading(true);
     try {
-      console.log(formData);
+      //console.log(formData);
       //TODO change to axios
       const response = await fetch(
         `${import.meta.env.VITE_BASE_URL}/register`,

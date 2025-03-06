@@ -148,7 +148,7 @@ export const DoctorProfile = () => {
   }, [token]);
   const handleUpdateProfile = async () => {
     setIsUploading(true);
-    console.log(editData);
+    //console.log(editData);
 
     try {
       const formData = new FormData();
@@ -193,7 +193,7 @@ export const DoctorProfile = () => {
   };
   const handleUpdateWorkProfile = async () => {
     setIsUploading(true);
-    console.log(editWorkData);
+    //console.log(editWorkData);
 
     try {
       const formData = new FormData();
@@ -239,7 +239,7 @@ export const DoctorProfile = () => {
   };
   const handleUpdateFee = async () => {
     setIsUploading(true);
-    // console.log(editWorkData);
+    // //console.log(editWorkData);
 
     try {
       const formData = new FormData();
@@ -262,7 +262,7 @@ export const DoctorProfile = () => {
           },
         },
       );
-      // console.log(response);
+      // //console.log(response);
 
       if (response.status === 201) {
         setFeeInfo(response.data.data);
@@ -280,7 +280,7 @@ export const DoctorProfile = () => {
   };
   const handleUpdateAvailability = async () => {
     setIsUploading(true);
-    // console.log(editWorkData);
+    // //console.log(editWorkData);
 
     try {
       const formData = new FormData();
@@ -311,7 +311,7 @@ export const DoctorProfile = () => {
           },
         },
       );
-      console.log(response);
+      //console.log(response);
 
       if (response.status === 201) {
         setAvailability(response.data.data);

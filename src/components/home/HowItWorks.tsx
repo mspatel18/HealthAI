@@ -91,7 +91,7 @@ function StepCard({
         whileHover={{ scale: 1.1, backgroundColor: "#dbeafe" }}
         transition={{ type: "spring", stiffness: 300, damping: 10 }}
       >
-        <span className="text-2xl font-bold text-blue-600">{number}</span>
+        <span className="text-primary text-2xl font-bold">{number}</span>
       </motion.div>
       <h3 className="mb-3 text-xl font-semibold">{title}</h3>
       <p className="text-gray-600">{description}</p>

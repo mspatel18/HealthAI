@@ -48,7 +48,7 @@ const DoctorAvailableTime = ({
           selectedDate.getMonth() + 1,
         ).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
 
-        console.log(formattedDate);
+        //console.log(formattedDate);
 
         const response = await axios.post(
           `${import.meta.env.VITE_BASE_URL}/${role}/getdoctors_timetable`,

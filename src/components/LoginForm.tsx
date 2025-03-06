@@ -94,12 +94,12 @@ export function LoginForm({ className, ...props }: { className?: string }) {
               <div className="grid gap-2">
                 <Label htmlFor="password" className="flex justify-between">
                   Password{" "}
-                  {/* <NavLink
+                  <NavLink
                     to="/forgot-password"
                     className="text-muted-foreground text-sm font-normal underline"
                   >
                     Forgot Password?
-                  </NavLink> */}
+                  </NavLink>
                 </Label>
                 <Input
                   id="password"

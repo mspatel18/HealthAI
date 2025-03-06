@@ -99,7 +99,7 @@ function FeatureCard({
     >
       <Card className="h-full border-0 shadow-md">
         <CardContent className="p-6">
-          <div className="mb-4 w-fit rounded-full bg-blue-100 p-3 text-blue-600">
+          <div className="text-primary mb-4 w-fit rounded-full bg-blue-100 p-3">
             {icon}
           </div>
           <h3 className="mb-2 text-xl font-semibold">{title}</h3>

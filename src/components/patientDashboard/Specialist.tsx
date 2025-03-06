@@ -45,7 +45,7 @@ export const Specialist = () => {
         );
         setDoctors(response.data);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     fetchDoctors();

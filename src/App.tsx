@@ -20,7 +20,7 @@ import { DoctorProfile } from "./components/doctor/DoctorProfile";
 import { DoctorRegister } from "./pages/DoctorRegister";
 import SetAvailability from "./components/doctor/SetAvailability";
 import { HealthIssues } from "./components/patientDashboard/HealthIssues";
-// import { ForgotPassword } from "./pages/ForgotPassword";
+import { ForgotPassword } from "./pages/ForgotPassword";
 function App() {
   return (
     <Provider store={store}>
@@ -32,7 +32,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/doctor-register" element={<DoctorRegister />} />
-            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="patient" element={<ProtectedRoute role="patient" />}>
               {/* <Route index element={<PatientHome />} /> */}
               <Route path="" element={<Dashboard />}>

@@ -76,11 +76,6 @@ export const AppointmentCalendar = () => {
     fetchAppointments();
   }, [token]);
 
-  // Log updated events whenever state changes
-  useEffect(() => {
-    console.log("Updated Events:", events);
-  }, [events]);
-
   // useEffect(() => {
   //   // Transform appointments into calendar events
   // }, [appointments]);

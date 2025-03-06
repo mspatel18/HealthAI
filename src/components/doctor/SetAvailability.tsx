@@ -35,7 +35,7 @@ export default function SetAvailability() {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
-        console.log(response.data);
+        ////console.log(response.data);
 
         const { timings } = response.data;
 
@@ -145,7 +145,7 @@ export default function SetAvailability() {
           })),
         ),
     };
-    console.log(apiPayload);
+    //console.log(apiPayload);
 
     try {
       const response = await axios.post(
@@ -158,7 +158,7 @@ export default function SetAvailability() {
           },
         },
       );
-      console.log(response);
+      //console.log(response);
       if (response.status === 201) {
         toast.success("Schedule saved successfully!");
       }
@@ -265,7 +265,7 @@ export default function SetAvailability() {
                 onClick={() => addTimeSlot(day)}
                 disabled={!enabled}
               >
-                <Plus size={16} className="text-blue-600" />
+                <Plus size={16} className="text-primary" />
               </Button>
             </div>
           ))}

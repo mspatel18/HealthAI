@@ -22,7 +22,7 @@ export const Navbar = () => {
               <motion.a
                 key={i}
                 href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
-                className="text-gray-700 transition hover:text-blue-600"
+                className="hover:text-primary text-gray-700 transition"
               >
                 {item}
               </motion.a>
