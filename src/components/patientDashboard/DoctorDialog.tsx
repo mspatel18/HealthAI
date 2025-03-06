@@ -58,6 +58,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [healthIssues, setHealthIssues] = useState<HealthIssuesInterface[]>();
+  const [loading, setLoading] = useState(false);
   const [doctorDetails, setDoctorDetails] =
     useState<Partial<DoctorPersonalInfo>>();
   const handleTimeSlotSelection = (selectedSlot: string) => {
@@ -104,6 +105,7 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
 
   // useEffect(() => {
   const fetchDoctorDetails = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/patient/getAllInfoDoctors`,
@@ -127,6 +129,8 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
       if (response.status === 200) setDoctorDetails(response.data);
     } catch (error) {
       toast.error(String(error));
+    } finally {
+      setLoading(false);
     }
   };
   // fetchDoctorDetails();
@@ -267,109 +271,125 @@ export const DoctorDialog = ({ doctor }: { doctor: DoctorInterface }) => {
             </div>
           </TabsContent>
           <TabsContent value="details">
-            <div className="flex w-full flex-col items-stretch gap-4">
-              <h3 className="mb-3 w-full text-lg font-medium">
-                Professional Information
-              </h3>
-              <div className="grid w-full grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">License Number</p>
-                  <p>{doctorDetails?.license_number}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Current Hospital/Clinic
-                  </p>
-                  <p>{doctorDetails?.current_hospital_clinic}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Payment Methods</p>
-                  <p className="capitalize">
-                    {doctorDetails?.payment_methods_accepted}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Languages Spoken</p>
-                  <p>{doctorDetails?.languages_spoken}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Online consultation availability
-                  </p>
-                  <p>
-                    {doctorDetails?.online_consultation_availability
-                      ? "Yes"
-                      : "No"}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Walk in availability</p>
-                  <p>{doctorDetails?.walk_in_availability ? "Yes" : "No"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Appointment booking required
-                  </p>
-                  <p>
-                    {doctorDetails?.appointment_booking_required ? "Yes" : "No"}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Time of one appointment
-                  </p>
-                  <p>{doctorDetails?.time_of_one_appointment}</p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div>
-              <h3 className="mb-3 text-lg font-medium">
-                Experience & Education
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <Building className="mt-0.5 mr-2 h-5 w-5 text-gray-500" />
-                  <div>
-                    <p className="font-medium">Previous Workplaces</p>
-                    <p className="text-gray-600">
-                      {doctorDetails?.previous_workplaces}
-                    </p>
+            {!loading ? (
+              <>
+                <div className="flex w-full flex-col items-stretch gap-4">
+                  <h3 className="mb-3 w-full text-lg font-medium">
+                    Professional Information
+                  </h3>
+                  <div className="grid w-full grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-500">License Number</p>
+                      <p>{doctorDetails?.license_number}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Current Hospital/Clinic
+                      </p>
+                      <p>{doctorDetails?.current_hospital_clinic}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Payment Methods</p>
+                      <p className="capitalize">
+                        {doctorDetails?.payment_methods_accepted}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Languages Spoken</p>
+                      <p>{doctorDetails?.languages_spoken}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Online consultation availability
+                      </p>
+                      <p>
+                        {doctorDetails?.online_consultation_availability
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Walk in availability
+                      </p>
+                      <p>
+                        {doctorDetails?.walk_in_availability ? "Yes" : "No"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Appointment booking required
+                      </p>
+                      <p>
+                        {doctorDetails?.appointment_booking_required
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Time of one appointment
+                      </p>
+                      <p>{doctorDetails?.time_of_one_appointment}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <Award className="mt-0.5 mr-2 h-5 w-5 text-gray-500" />
-                  <div>
-                    <p className="font-medium">Internship & Residency</p>
-                    <p className="text-gray-600">
-                      {doctorDetails?.internship_residency_details}
-                    </p>
+
+                <Separator />
+
+                <div>
+                  <h3 className="mb-3 text-lg font-medium">
+                    Experience & Education
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <Building className="mt-0.5 mr-2 h-5 w-5 text-gray-500" />
+                      <div>
+                        <p className="font-medium">Previous Workplaces</p>
+                        <p className="text-gray-600">
+                          {doctorDetails?.previous_workplaces}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <Award className="mt-0.5 mr-2 h-5 w-5 text-gray-500" />
+                      <div>
+                        <p className="font-medium">Internship & Residency</p>
+                        <p className="text-gray-600">
+                          {doctorDetails?.internship_residency_details}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <Separator />
+                <Separator />
 
-            <div>
-              <h3 className="mb-3 text-lg font-medium">Personal Information</h3>
-              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">Date of Birth</p>
-                  <p>{doctorDetails?.date_of_birth}</p>
+                  <h3 className="mb-3 text-lg font-medium">
+                    Personal Information
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Date of Birth</p>
+                      <p>{doctorDetails?.date_of_birth}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Gender</p>
+                      <p className="capitalize">{doctorDetails?.gender}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Nationality</p>
+                      <p>{doctorDetails?.nationality}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500">Gender</p>
-                  <p className="capitalize">{doctorDetails?.gender}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Nationality</p>
-                  <p>{doctorDetails?.nationality}</p>
-                </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              <>
+                <p>Loading....</p>
+              </>
+            )}
           </TabsContent>
         </Tabs>
       </DialogContent>

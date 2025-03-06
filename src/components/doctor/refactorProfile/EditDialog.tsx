@@ -116,6 +116,10 @@ export const EditDialog = ({
                     )
                   }
                 />
+              ) : field.type === "text" ? (
+                "asdf"
+              ) : field.type === "number" ? (
+                "qwer"
               ) : (
                 ""
               )}

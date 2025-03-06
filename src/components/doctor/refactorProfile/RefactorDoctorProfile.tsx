@@ -120,7 +120,6 @@ export const RefactorDoctorProfile = () => {
               key: "languages_spoken",
               type: "text",
             },
-            { label: "Profile Photo", key: "profile_photo", type: "file" },
           ]}
         />
         <InfoCard

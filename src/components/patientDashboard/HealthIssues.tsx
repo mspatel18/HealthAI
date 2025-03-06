@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { NavLink } from "react-router";
 import { Button } from "../ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MedicalReportEntry {
   id: string;
@@ -30,39 +31,12 @@ interface MedicalReportEntry {
   solution: string;
 }
 
-// const data = [
-//   {
-//     id: "1",
-//     symptoms: "I feel restless and have trouble sleeping.",
-//     report_image: null,
-//     diagnosis: "pilonidal cyst",
-//     date: "2023-10-15",
-//   },
-//   {
-//     id: "2",
-//     symptoms: "Persistent headache and sensitivity to light.",
-//     report_image: null,
-//     diagnosis: "migraine",
-//     date: "2023-11-02",
-//   },
-//   {
-//     id: "3",
-//     symptoms: "Sore throat and difficulty swallowing.",
-//     report_image: null,
-//     diagnosis: "strep throat",
-//     date: "2023-12-10",
-//   },
-//   {
-//     id: "4",
-//     symptoms: "Joint pain in knees and ankles, especially in the morning.",
-//     report_image: null,
-//     diagnosis: "rheumatoid arthritis",
-//     date: "2024-01-05",
-//   },
-// ];
 export const HealthIssues = () => {
   const token = useSelector((state: RootState) => state.auth.token);
-  const [healthIssues, setHealthIssues] = useState<MedicalReportEntry[]>();
+  const [healthIssues, setHealthIssues] = useState<MedicalReportEntry[] | null>(
+    null,
+  );
+
   useEffect(() => {
     const fetchHealthIssues = async () => {
       try {
@@ -79,6 +53,7 @@ export const HealthIssues = () => {
     };
     fetchHealthIssues();
   }, [token]);
+
   return (
     <>
       <Card className="w-full">
@@ -94,7 +69,11 @@ export const HealthIssues = () => {
             <Button>Add Issue</Button>
           </NavLink>
           <Accordion type="single" collapsible className="w-full">
-            {healthIssues?.length ? (
+            {healthIssues === null ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton key={index} className="my-2 h-16 w-full rounded-md" />
+              ))
+            ) : healthIssues.length ? (
               healthIssues.map((entry, index) => (
                 <AccordionItem key={entry.id} value={entry.id}>
                   <AccordionTrigger className="hover:bg-muted/50 rounded-md px-4">
@@ -178,9 +157,7 @@ export const HealthIssues = () => {
                 </AccordionItem>
               ))
             ) : (
-              <>
-                <p>No issues found</p>
-              </>
+              <p className="py-2">No issues found</p>
             )}
           </Accordion>
         </CardContent>

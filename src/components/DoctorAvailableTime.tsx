@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TimeSlot {
   start_time: string;
@@ -31,11 +32,12 @@ const DoctorAvailableTime = ({
     new Date(),
   );
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const token = useSelector((state: RootState) => state.auth.token);
 
   const handleSelectSlot = (slot: string) => {
-    setSelectedSlot(slot); // Update selected slot
+    setSelectedSlot(slot);
     onTimeSlotSelect(slot);
   };
 
@@ -43,12 +45,11 @@ const DoctorAvailableTime = ({
     if (!selectedDate) return;
 
     const fetchSchedule = async () => {
+      setLoading(true);
       try {
         const formattedDate = `${selectedDate.getFullYear()}-${String(
           selectedDate.getMonth() + 1,
         ).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
-
-        //console.log(formattedDate);
 
         const response = await axios.post(
           `${import.meta.env.VITE_BASE_URL}/${role}/getdoctors_timetable`,
@@ -81,6 +82,8 @@ const DoctorAvailableTime = ({
         }
       } catch (error) {
         console.error("Error fetching schedule:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -106,17 +109,21 @@ const DoctorAvailableTime = ({
         </PopoverContent>
       </Popover>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-md">
-        {timeSlots.length !== 0 ? (
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} className="h-12 w-full rounded-md" />
+          ))
+        ) : timeSlots.length !== 0 ? (
           timeSlots.map((slot, index) => (
             <Button
               key={index}
-              variant={slot.start_time === selectedSlot ? "default" : "outline"} // Primary when selected
+              variant={slot.start_time === selectedSlot ? "default" : "outline"}
               onClick={() => handleSelectSlot(slot.start_time)}
               className={cn(
                 "flex h-12 flex-col overflow-hidden rounded-md border p-4 text-ellipsis transition",
                 slot.available
                   ? slot.start_time === selectedSlot
-                    ? "border-blue-500 bg-blue-500 text-white hover:bg-blue-600" // Highlight selected slot
+                    ? "border-blue-500 bg-blue-500 text-white hover:bg-blue-600"
                     : "border-gray-200 text-gray-900 hover:border-blue-500"
                   : "text-muted-foreground cursor-not-allowed opacity-50",
               )}
