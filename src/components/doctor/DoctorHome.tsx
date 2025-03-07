@@ -97,7 +97,9 @@ export const DoctorHome = () => {
                         </p>
                         <div className="flex items-center gap-2">
                           <span className="text-muted-foreground text-sm">
-                            {appointment.appointment_date}
+                            {new Date(
+                              appointment.appointment_date + "Z",
+                            ).toLocaleString()}
                           </span>
                           <span className="text-muted-foreground text-sm">
                             •
